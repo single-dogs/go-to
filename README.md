@@ -1,10 +1,12 @@
 # go-to
+
 分享运动场地的应用
-# 需求文档
 
-## 页面预览
+## 需求文档
 
-![](https://view.didistatic.com/static/dcms/jc4w16vk1kwk6xmtq_270x600_compress.jpeg)
+### 页面预览
+
+![desc](https://view.didistatic.com/static/dcms/jc4w16vk1kwk6xmtq_270x600_compress.jpeg)
 
 底部导航依次为：地图 约球 发布 消息 我的
 
@@ -12,9 +14,9 @@
 
   * 地图中点击表示可以进入球场详情
 
-    ![](https://view.didistatic.com/static/dcms/19hpao1b3zekwk6xmyk_270x600_compress.jpeg)
+    ![desc](https://view.didistatic.com/static/dcms/19hpao1b3zekwk6xmyk_270x600_compress.jpeg)
 
-    ![](https://view.didistatic.com/static/dcms/7qcc06ke2nkwk6xmy0_270x600_compress.jpeg)
+    ![desc](https://view.didistatic.com/static/dcms/7qcc06ke2nkwk6xmy0_270x600_compress.jpeg)
 
 * 约球功能后续想发展为社区互动，提供线下约球交流的地方，可以在发布中发布一条约球信息（类似一个文章），该页面也提供筛选，入城市，种类等
 
@@ -26,7 +28,7 @@
 
 * 消息中可以看到评论的消息，可以回复评论，也可以回复发布内容
 
-  ![](https://view.didistatic.com/static/dcms/19hpao1b3zekwk7ly41_270x600_compress.jpeg)
+  ![desc](https://view.didistatic.com/static/dcms/19hpao1b3zekwk7ly41_270x600_compress.jpeg)
 
 * 我的中展示发布功能，可以查看发布的球场，和发布的约球信息
 
@@ -35,16 +37,10 @@
   * 我的中展示修改用户信息功能（头像，签名，所在地，爱好）
   * 管理员功能：查看在线人数（根据session查看），注册人数，删除评论
 
-## 功能
+### 功能
 
 ### 登陆
 
-
-
 ### 发布
 
-
-
 ### 检索
-
-
