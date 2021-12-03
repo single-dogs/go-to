@@ -1,0 +1,23 @@
+version: '3.0'
+
+services:
+  gotoServer:
+    container_name: gotoServer
+    image: 'node'
+    environment:
+      - PORT=8080
+      - MONGOURL=mongodb://MongoDB:27017/goto
+    ports:
+      - '80:8080'
+    volumes:
+      - '.:/server'
+    command: "sh -c 'node /server/dist/index.js'"
+
+  mongo:
+    container_name: MongoDB
+    image: mongo
+    ports:
+      - '27017:27017'
+    volumes:
+      - './data:/data/db'
+    command: "sh -c 'mongod --dbpath /data/db --bind_ip_all'"
