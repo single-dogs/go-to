@@ -11,9 +11,11 @@ services:
       - GOTO_GOTO_JWT_EXPIRATION=1h
     ports:
       - '80:8080'
+      - '9229:9229'
     volumes:
       - '.:/server'
-    command: "sh -c 'node /server/dist/index.js'"
+    command: "sh -c 'node  --inspect=0.0.0.0:9229 -r
+      /server/node_modules/ts-node/register /server/src/index.ts'"
 
   mongo:
     container_name: MongoDB

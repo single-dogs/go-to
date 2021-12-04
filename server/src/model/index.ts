@@ -1,1 +1,2 @@
-import { mongoClient } from "./db"
+export { mongoClient } from "./db"
+export { MongoUser, UnknownUser } from "./User"
