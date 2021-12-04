@@ -1,7 +1,7 @@
 import { Context } from "koa"
 import { MongoUser } from "../../model"
-import bcrypt from "bcryptjs"
 import joi from "joi"
+import { pick } from "lodash"
 
 const validator = joi.object({
     newUsername: joi.string(),
@@ -53,9 +53,7 @@ export async function update(ctx: Context) {
         ctx.body = {
             code: 0,
             message: '更新成功',
-            data: {
-
-            }
+            data: pick(mongoUser, ['_id', 'username']),
         }
 
     } catch (error: any) {

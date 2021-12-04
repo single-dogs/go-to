@@ -1,5 +1,5 @@
 import { Context } from "koa"
-import _ from "lodash"
+import { pick } from "lodash"
 import { MongoUser } from "../../model"
 import { signJWT } from "../../util/jwt"
 
@@ -21,7 +21,7 @@ export async function login(ctx: Context) {
                 code: 0,
                 message: '登录成功',
                 data: {
-                    userinfo: _.pick(mongoUser, ['username', '_id']),
+                    userinfo: pick(mongoUser, ['username', '_id']),
                     token: signJWT({ _id: mongoUser._id, username: mongoUser.username, password }),
                 },
             }
