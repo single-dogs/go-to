@@ -27,7 +27,7 @@ export async function login(ctx: Context) {
             }
         } else {
             ctx.body = {
-                code: 2,
+                code: 1,
                 message: '密码错误',
                 data: null,
             }
