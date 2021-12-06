@@ -5,6 +5,13 @@
     "version": "0.2.0",
     "configurations": [
         {
+            "command": "npm test",
+            "name": "Run npm test",
+            "request": "launch",
+            "type": "node-terminal",
+            "cwd": "${workspaceFolder}/server",
+        },
+        {
             "name": "debug",
             "port": 9229,
             "request": "attach",
