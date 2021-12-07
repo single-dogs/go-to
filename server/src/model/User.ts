@@ -17,9 +17,9 @@ const updateValidator = joi.object({
 })
 
 export class MongoUser {
-    protected __id: ObjectId
-    protected _username: string
-    protected _hashedPassword: string
+    private __id: ObjectId
+    private _username: string
+    private _hashedPassword: string
 
     public get _id() { return this.__id }
     public get username() { return this._username }
@@ -35,13 +35,13 @@ export class MongoUser {
         this._hashedPassword = hashedPassword
     }
 
-    async comparePassword(password: string | undefined): Promise<boolean> {
+    public async comparePassword(password: string | undefined): Promise<boolean> {
         if (this._hashedPassword == undefined) { return false }
         if (password == undefined) { return false }
         return await bycript.compare(password, this._hashedPassword)
     }
 
-    async update({ username, password }: {
+    public async update({ username, password }: {
         username?: string
         password?: string
     }) {
@@ -62,14 +62,14 @@ export class MongoUser {
         })
     }
 
-    static async fromId(id: ObjectId | string | undefined): Promise<MongoUser | null> {
+    public static async fromId(id: ObjectId | string | undefined): Promise<MongoUser | null> {
         if (id == undefined) { return null }
         const user = await UsersCollection.findOne({ _id: id instanceof ObjectId ? id : ObjectId.createFromHexString(id) })
         if (user == undefined) { return null }
         return new MongoUser(user as any)
     }
 
-    static async fromUsername(username: string | undefined): Promise<MongoUser | null> {
+    public static async fromUsername(username: string | undefined): Promise<MongoUser | null> {
         if (username == undefined) { return null }
         const user = await UsersCollection.findOne({ username })
         if (user == undefined) { return null }
@@ -79,11 +79,11 @@ export class MongoUser {
 }
 
 export class UnknownUser {
-    protected _username: string
-    protected _password: string
-    protected _hashedPassword: string
+    private _username: string
+    private _password: string
+    private _hashedPassword: string
 
-    static readonly validator = joi.object({
+    public static readonly validator = joi.object({
         username: validators.username.required(),
         password: validators.password.required(),
     })
@@ -92,7 +92,7 @@ export class UnknownUser {
     public get password(): string { return this._password }
     public get hashedPassword(): string { return this._hashedPassword }
 
-    constructor({ username, password }: {
+    public constructor({ username, password }: {
         username: string
         password: string
     }) {
