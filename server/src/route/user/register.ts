@@ -1,11 +1,10 @@
 import { Context } from "koa"
 import { MongoUser, UnknownUser } from "../../model"
-import joi from "joi"
 
 export async function register(ctx: Context) {
     try {
         // validate
-        const { username, password } = ctx.request.body;
+        const { username, password } = ctx.request.body
         const { error } = UnknownUser.validator.validate({ username, password });
         if (error) {
             ctx.body = {

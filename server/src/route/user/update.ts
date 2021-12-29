@@ -4,8 +4,8 @@ import joi from "joi"
 import { pick } from "lodash"
 
 const validator = joi.object({
-    newUsername: joi.string(),
-    newPassword: joi.string(),
+    newUsername: joi.string().allow(null).optional(),
+    newPassword: joi.string().allow(null).optional(),
     oldPassword: joi.string().required(),
 })
 

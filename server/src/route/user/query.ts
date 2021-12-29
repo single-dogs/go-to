@@ -4,8 +4,8 @@ import { MongoUser } from '../../model'
 import { pick } from 'lodash'
 
 const queryValidator = joi.object({
-    _id: joi.string(),
-    username: joi.string(),
+    _id: joi.string().allow(null).optional(),
+    username: joi.string().allow(null).optional(),
 })
 export async function query(ctx: Koa.Context) {
     try {
@@ -54,8 +54,8 @@ export async function query(ctx: Koa.Context) {
 }
 
 const queryMultiUserValidator = joi.object({
-    _ids: joi.array().items(joi.string()),
-    usernames: joi.array().items(joi.string()),
+    _ids: joi.array().items(joi.string()).allow(null).optional(),
+    usernames: joi.array().items(joi.string()).allow(null).optional(),
 })
 
 export async function queryMultiUser(ctx: Koa.Context) {
