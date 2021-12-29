@@ -11,15 +11,15 @@ const validators = {
     password: joi.string().min(8).max(30),
 }
 
-const updateValidator = joi.object({
-    username: validators.username,
-    password: validators.password,
-})
-
 export class MongoUser {
     private __id: ObjectId
     private _username: string
     private _hashedPassword: string
+
+    public static readonly validator = joi.object({
+        username: validators.username.allow(null).optional(),
+        password: validators.password.allow(null).optional(),
+    })
 
     public get _id() { return this.__id }
     public get username() { return this._username }
@@ -46,7 +46,8 @@ export class MongoUser {
         password?: string
     }) {
         // validate
-        const { error } = updateValidator.validate({ username, password })
+        if (username == undefined && password == undefined) { return /* no update */ }
+        const { error } = MongoUser.validator.validate({ username, password })
         if (error) { throw error }
 
         // update
@@ -59,7 +60,7 @@ export class MongoUser {
         })
         if (re.acknowledged == false) { throw new Error("更新失败") }
 
-        // 更新该对象的字段
+        // update object
         const updated = await UsersCollection.findOne({ _id: this._id })
         if (updated == undefined) { throw new Error("更新失败") }
         this.__id = updated._id
