@@ -15,7 +15,7 @@ export async function query(ctx: Koa.Context) {
         if (error || (_id == undefined && username == undefined)) {
             ctx.body = {
                 code: 1,
-                message: '参数错误',
+                message: error?.message ?? '参数错误',
                 data: null
             }
             return
@@ -67,7 +67,7 @@ export async function queryMultiUser(ctx: Koa.Context) {
         if (error || (_ids == undefined && usernames == undefined)) {
             ctx.body = {
                 code: 1,
-                message: '参数错误',
+                message: error?.message ?? '参数错误',
                 data: null
             }
             return

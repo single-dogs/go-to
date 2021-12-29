@@ -16,7 +16,7 @@ export async function update(ctx: Context) {
         if (error || (ctx.request.body.newUsername == undefined && ctx.request.body.newPassword == undefined)) {
             ctx.body = {
                 code: 1,
-                message: '参数无效',
+                message: error?.message ?? '参数错误',
                 data: null,
             }
             return
