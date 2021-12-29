@@ -10,7 +10,7 @@ const queryValidator = joi.object({
 export async function query(ctx: Koa.Context) {
     try {
 
-        const { _id, username } = ctx.query
+        const { _id, username } = ctx.request.body
         const { error } = queryValidator.validate({ _id, username })
         if (error || (_id == undefined && username == undefined)) {
             ctx.body = {
@@ -60,7 +60,7 @@ const queryMultiUserValidator = joi.object({
 
 export async function queryMultiUser(ctx: Koa.Context) {
     try {
-        const { _ids, usernames } = ctx.query
+        const { _ids, usernames } = ctx.request.body
         const { error } = queryMultiUserValidator.validate({ _ids, usernames })
         _ids as string[] | null
         usernames as string[] | null

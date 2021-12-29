@@ -8,7 +8,7 @@ import { Context, DefaultState } from 'koa'
 import { loginAuth } from '../../middleware/loginAuth'
 
 export const userRouter = new Router<DefaultState, Context>()
-    .post('/user', bodyParser(), register)
-    .put('/user', UserLoginedAuthMiddleware, loginAuth, bodyParser(), update)
-    .get('/user', query)
-    .get('/users', queryMultiUser)
+    .post('/register', bodyParser(), register)
+    .post('/updateUser', bodyParser(), UserLoginedAuthMiddleware, loginAuth, bodyParser(), update)
+    .post('/queryUser', bodyParser(), query)
+    .post('/queryUsers', bodyParser(), queryMultiUser)
