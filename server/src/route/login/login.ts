@@ -2,10 +2,27 @@ import { Context } from "koa"
 import { pick } from "lodash"
 import { MongoUser } from "../../model"
 import { JwtUserValidator } from "../../util/jwt"
+import joi from 'joi'
+
+const validator = joi.object({
+    username: joi.string().allow(null).required(),
+    password: joi.string().allow(null).required(),
+})
 
 export async function login(ctx: Context) {
     try {
         const { username, password } = ctx.request.body
+        // validate
+        const { error } = validator.validate({ username, password });
+        if (error) {
+            ctx.body = {
+                code: 1,
+                message: error.message,
+                data: null,
+            }
+            return
+        }
+
         const mongoUser = await MongoUser.fromUsername(username)
         if (mongoUser == null) {
             ctx.body = {
