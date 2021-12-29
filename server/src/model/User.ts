@@ -41,7 +41,7 @@ export class MongoUser {
         return await bycript.compare(password, this._hashedPassword)
     }
 
-    public async update({ username, password }: {
+    public async validateAndUpdate({ username, password }: {
         username?: string
         password?: string
     }) {
@@ -52,14 +52,19 @@ export class MongoUser {
         // update
         const setter: any = {}
         if (username) { setter.username = username }
-        if (password) { setter._hashedPassword = await bycript.hash(password, 10) }
+        if (password) { setter.hashedPassword = await bycript.hash(password, 10) }
 
-        await UsersCollection.updateOne({ _id: this._id }, {
-            $set: {
-                username: this._username,
-                hashedPassword: this._hashedPassword
-            }
+        const re = await UsersCollection.updateOne({ _id: this._id }, {
+            $set: setter
         })
+        if (re.acknowledged == false) { throw new Error("更新失败") }
+
+        // 更新该对象的字段
+        const updated = await UsersCollection.findOne({ _id: this._id })
+        if (updated == undefined) { throw new Error("更新失败") }
+        this.__id = updated._id
+        this._username = updated.username
+        this._hashedPassword = updated._hashedPassword
     }
 
     public static async fromId(id: ObjectId | string | undefined): Promise<MongoUser | null> {

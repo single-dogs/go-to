@@ -48,7 +48,7 @@ export async function update(ctx: Context) {
         }
 
         // update
-        await mongoUser.update({ username: newUsername, password: newPassword })
+        await mongoUser.validateAndUpdate({ username: newUsername, password: newPassword })
 
         ctx.body = {
             code: 0,
