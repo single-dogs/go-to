@@ -1,7 +1,7 @@
 import { Context } from "koa"
 import { pick } from "lodash"
 import { MongoUser } from "../../model"
-import { signJWT } from "../../util/jwt"
+import { JwtUserValidator } from "../../util/jwt"
 
 export async function login(ctx: Context) {
     try {
@@ -22,7 +22,7 @@ export async function login(ctx: Context) {
                 message: '登录成功',
                 data: {
                     userinfo: pick(mongoUser, ['username', '_id']),
-                    token: signJWT({ _id: mongoUser._id, username: mongoUser.username, password }),
+                    token: JwtUserValidator.signJWT({ _id: mongoUser._id, username: mongoUser.username, password }),
                 },
             }
         } else {
