@@ -24,7 +24,7 @@ export async function update(ctx: Context) {
 
         // data
         const { newUsername, newPassword, oldPassword } = ctx.request.body
-        const { userinfo: currentUser } = ctx.jwtdata
+        const { userinfo: currentUser } = ctx.state
 
         // user in db
         let mongoUser = await MongoUser.fromId(currentUser?._id);

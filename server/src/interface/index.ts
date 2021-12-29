@@ -13,6 +13,6 @@ export interface JwtPayload {
 // koa context 
 declare module 'koa' {
     interface DefaultContext {
-        jwtdata: JwtPayload
+        state: JwtPayload
     }
 }
