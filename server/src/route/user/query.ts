@@ -2,6 +2,8 @@ import Koa from 'koa'
 import joi from 'joi'
 import { MongoUser } from '../../model'
 import { pick } from 'lodash'
+import { UserStat } from '../../model/User'
+import { ObjectId } from 'mongodb'
 
 const queryValidator = joi.object({
     _id: joi.string().allow(null).optional(),
@@ -40,7 +42,7 @@ export async function query(ctx: Koa.Context) {
         ctx.body = {
             code: 0,
             message: '查询成功',
-            data: pick(mongoUser, ['_id', 'username'])
+            data: pick(mongoUser, ['_id', 'username', 'stat'])
         }
     } catch (error: any) {
         ctx.body = {
@@ -76,12 +78,12 @@ export async function queryMultiUser(ctx: Koa.Context) {
         const responseData: {
             _idMap: {
                 [_id: string]: {
-                    _id?: string, username?: string
+                    _id?: ObjectId, username?: string, stat?: UserStat
                 } | null
             } | null,
             usernameMap: {
                 [username: string]: {
-                    _id: string, username: string
+                    _id?: ObjectId, username?: string, stat?: UserStat
                 } | null
             } | null
         } = { _idMap: null, usernameMap: null }
@@ -90,7 +92,7 @@ export async function queryMultiUser(ctx: Koa.Context) {
             responseData._idMap = {}
             for (const _id of _ids) {
                 const mongoUser = await MongoUser.fromId(_id)
-                responseData._idMap[_id] = mongoUser ? { _id: mongoUser._id.toString(), username: mongoUser.username } : null
+                responseData._idMap[_id] = mongoUser != null ? pick(mongoUser, ['_id', 'username', 'stat']) : null
             }
         }
 
@@ -98,7 +100,7 @@ export async function queryMultiUser(ctx: Koa.Context) {
             responseData.usernameMap = {}
             for (const username of usernames) {
                 const mongoUser = await MongoUser.fromUsername(username)
-                responseData.usernameMap[username] = mongoUser ? { _id: mongoUser._id.toString(), username: mongoUser.username } : null
+                responseData.usernameMap[username] = mongoUser != null ? pick(mongoUser, ['_id', 'username', 'stat']) : null
             }
         }
 

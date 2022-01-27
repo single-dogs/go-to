@@ -11,10 +11,15 @@ const validators = {
     password: joi.string().min(8).max(30),
 }
 
+export interface UserStat {
+    appointmentCount: number,
+}
+
 export class MongoUser {
     private __id: ObjectId
     private _username: string
     private _hashedPassword: string
+    private _stat: UserStat | undefined
 
     public static readonly validator = joi.object({
         username: validators.username.allow(null).optional(),
@@ -24,15 +29,18 @@ export class MongoUser {
     public get _id() { return this.__id }
     public get username() { return this._username }
     public get hashedPassword() { return this._hashedPassword }
+    public get stat() { return this._stat }
 
-    private constructor({ _id, username, hashedPassword }: {
+    private constructor({ _id, username, hashedPassword, stat }: {
         _id: ObjectId
         username: string
         hashedPassword: string
+        stat?: UserStat
     }) {
         this.__id = _id
         this._username = username
         this._hashedPassword = hashedPassword
+        this._stat = stat
     }
 
     public async comparePassword(password: string | undefined): Promise<boolean> {
@@ -88,6 +96,7 @@ export class UnknownUser {
     private _username: string
     private _password: string
     private _hashedPassword: string
+    private _stat: UserStat = { appointmentCount: 0 }
 
     public static readonly validator = joi.object({
         username: validators.username.required(),
@@ -97,6 +106,7 @@ export class UnknownUser {
     public get username(): string { return this._username }
     public get password(): string { return this._password }
     public get hashedPassword(): string { return this._hashedPassword }
+    public get stat(): UserStat { return this._stat }
 
     public constructor({ username, password }: {
         username: string
@@ -113,6 +123,6 @@ export class UnknownUser {
     }
 
     public async save() {
-        return await UsersCollection.insertOne(pick(this, ["username", "hashedPassword"]))
+        return await UsersCollection.insertOne(pick(this, ["username", "hashedPassword", "stat"]))
     }
 }
